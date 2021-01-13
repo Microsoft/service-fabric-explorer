@@ -485,6 +485,7 @@ export interface IRawPartition {
         PartitionInformation: IRawPartitionInformation;
         TargetReplicaSetSize: number;
         MinReplicaSetSize: number;
+        AuxiliaryReplicaCount: number;
         InstanceCount: number;
         HealthState: string;
         PartitionStatus: string;
@@ -676,6 +677,7 @@ export interface IRawServiceDescription {
         InstanceCount: number;
         TargetReplicaSetSize: number;
         MinReplicaSetSize: number;
+        AuxiliaryReplicaCount: number;
         HasPersistedState: boolean;
         PlacementConstraints: string;
         CorrelationScheme: IRawServiceCorrelationDescription[];
@@ -705,6 +707,7 @@ export interface IRawServiceLoadMetricDescription {
         Weight: string;
         PrimaryDefaultLoad: number;
         SecondaryDefaultLoad: number;
+        AuxiliaryDefaultLoad?: number;
     }
 
 export interface IRawServiceType {
@@ -840,6 +843,7 @@ export interface IRawUpdateServiceDescription {
         Flags?: number;
         TargetReplicaSetSize?: number;
         MinReplicaSetSize?: number;
+        AuxiliaryReplicaCount?: number;
         InstanceCount?: number;
         ReplicaRestartWaitDurationSeconds?: number;
         QuorumLossWaitDurationSeconds?: number;
@@ -849,6 +853,7 @@ export interface IRawUpdateServiceDescription {
 export interface IRawCreateServiceDescription extends IRawCreateServiceFromTemplateDescription, IRawUpdateServiceDescription {
         PartitionDescription: IRawPartitionDescription;
         TargetReplicaSetSize: number;
+        AuxiliaryReplicaCount: number;
         HasPersistedState: boolean;
         PlacementConstraints: string;
         CorrelationScheme: IRawServiceCorrelationDescription[];

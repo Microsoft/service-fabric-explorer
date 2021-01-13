@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="service">
-    <div class="detail-pane essen-pane">
+    <div class="detail-pane essen-pane" data-cy="serviceDescription">
         <h4>
             Service Description
         </h4>
@@ -11,7 +11,7 @@
     </div>
     
     <div class="detail-pane essen-pane">
-        <h4>
+        <h4> 
             Health Events
         </h4>
         <app-detail-list [list]="service.health.healthEvents" [listSettings]="healthEventsListSettings"></app-detail-list>

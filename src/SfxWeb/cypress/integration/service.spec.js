@@ -58,9 +58,14 @@ context('service', () => {
 
         it('view details', () => {
             cy.wait(waitRequest);
+            cy.wait('@description');
 
             cy.get('[data-cy=navtabs]').within(() => {
                 cy.contains('details').click();
+            })
+
+            cy.get('[data-cy=serviceDescription]').within(() => {
+                cy.contains("Auxiliary Replica Count").should('not.exist');
             })
 
             cy.url().should('include', '/details')
@@ -97,6 +102,33 @@ context('service', () => {
 
             cy.url().should('include', '/backup')
         })
+    })
+
+    describe("stateful - with auxiliary replicas", () => {
+        beforeEach(() => {
+            cy.route(apiUrl(`${routeFormatter(appName, serviceName)}/$/GetDescription?*`), "fx:service-page/service-description-with-aux").as("descriptionWithAux");
+            cy.route(apiUrl(`${routeFormatter(appName, serviceName)}?*`), "fx:service-page/service-info").as("serviceInfo");
+            cy.route(apiUrl(`${routeFormatter(appName, serviceName)}/$/GetPartitions?*`), "fx:service-page/service-partitions").as("partitions");
+            cy.route(apiUrl(`${routeFormatter(appName, serviceName)}/$/GetHealth?*`), "fx:service-page/service-health").as("health");
+
+            cy.visit(urlFormatter(appName, serviceName))
+        })
+
+        it('view details - with auxiliary replicas', () => {
+            cy.wait(waitRequest);
+            cy.wait("@descriptionWithAux");
+
+            cy.get('[data-cy=navtabs]').within(() => {
+                cy.contains('details').click();
+            })
+
+            cy.get('[data-cy=serviceDescription]').within(() => {
+                cy.contains("Auxiliary Replica Count")
+            })
+
+            cy.url().should('include', '/details')
+        })
+
     })
 
     describe("stateless", () => {
