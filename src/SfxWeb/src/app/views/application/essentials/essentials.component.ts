@@ -20,7 +20,6 @@ export class EssentialsComponent extends ApplicationBaseControllerDirective {
 
   upgradeProgress: ApplicationUpgradeProgress;
   listSettings: ListSettings;
-  unhealthyEvaluationsListSettings: ListSettings;
   upgradeProgressUnhealthyEvaluationsListSettings: ListSettings;
   serviceTypesListSettings: ListSettings;
   clusterManifest: ClusterManifest;
@@ -52,7 +51,6 @@ export class EssentialsComponent extends ApplicationBaseControllerDirective {
         new ListColumnSettingForApplicationServiceRow(),
     ]);
 
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
     this.upgradeProgressUnhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings('upgradeProgressUnhealthyEvaluations');
     this.cdr.detectChanges();
 

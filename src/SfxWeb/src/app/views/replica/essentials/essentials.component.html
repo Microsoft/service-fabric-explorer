@@ -56,7 +56,7 @@
 
   <div class="detail-pane essen-pane" *ngIf="replica.health.isInitialized">
     <h4>Unhealthy Evaluations</h4>
-    <app-detail-list [list]="replica.health.unhealthyEvaluations" [listSettings]="unhealthyEvaluationsListSettings">
-    </app-detail-list>
+    <app-health-viewer [unhealthyEvaluations]="replica.health.unhealthyEvaluations" ></app-health-viewer>
+
   </div>
 </div>

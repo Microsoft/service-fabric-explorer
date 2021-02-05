@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ListSettings, ListColumnSettingForLink, ListColumnSettingForBadge, ListColumnSettingWithFilter, ListColumnSetting } from 'src/app/Models/ListSettings';
@@ -12,7 +12,6 @@ import { DeployedAppBaseControllerDirective } from '../DeployedApplicationBase';
   styleUrls: ['./essentials.component.scss']
 })
 export class EssentialsComponent extends DeployedAppBaseControllerDirective {
-  unhealthyEvaluationsListSettings: ListSettings;
   listSettings: ListSettings;
 
   constructor(protected data: DataService, injector: Injector, private settings: SettingsService) {
@@ -26,7 +25,6 @@ export class EssentialsComponent extends DeployedAppBaseControllerDirective {
 
 
   setup(){
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
     this.listSettings = this.settings.getNewOrExistingListSettings('servicePackages', ['name'], [
       new ListColumnSettingForLink('uniqueId', 'Name', item => item.viewPath),
       new ListColumnSetting('raw.Version', 'Version'),

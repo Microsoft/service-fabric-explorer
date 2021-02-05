@@ -17,15 +17,12 @@ export class EssentialsComponent extends NodeBaseControllerDirective {
 
   deployedApps: DeployedApplicationCollection;
   listSettings: ListSettings;
-  unhealthyEvaluationsListSettings: ListSettings;
 
   constructor(protected data: DataService, injector: Injector, private settings: SettingsService) {
     super(data, injector);
   }
 
   setup() {
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
-
     this.listSettings = this.settings.getNewOrExistingListSettings('apps', ['name'], [
       new ListColumnSettingForLink('name', 'Name', item => item.viewPath),
       new ListColumnSetting('raw.TypeName', 'Application Type'),

@@ -26,7 +26,6 @@ export class EssentialsComponent extends BaseControllerDirective {
   nodes: NodeCollection;
   clusterHealth: ClusterHealth;
   systemApp: SystemApplication;
-  unhealthyEvaluationsListSettings: ListSettings;
 
   nodesDashboard: IDashboardViewModel;
   appsDashboard: IDashboardViewModel;
@@ -48,7 +47,6 @@ export class EssentialsComponent extends BaseControllerDirective {
     this.clusterUpgradeProgress = this.data.clusterUpgradeProgress;
     this.nodes = this.data.nodes;
     this.systemApp = this.data.systemApp;
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
   }
 
   refresh(messageHandler?: IResponseMessageHandler): Observable<any> {

@@ -1,11 +1,166 @@
-import { HealthUtils, HealthStatisticsEntityKind } from './healthUtils';
-import { IRawHealthEvaluation, IRawDeployedServicePackageHealthEvaluation, IRawNodeHealthEvluation, IRawApplicationHealthEvluation,
-         IRawServiceHealthEvaluation, IRawPartitionHealthEvaluation, IRawReplicaHealthEvaluation } from '../Models/RawDataTypes';
+import { IUnhealthyEvaluationNode, getNestedNode, getParentPath, getLeafNodes, HealthUtils, HealthStatisticsEntityKind } from './healthUtils';
+import { HealthEvaluation } from '../Models/DataModels/Shared';
+import {
+    IRawHealthEvaluation, IRawDeployedServicePackageHealthEvaluation, IRawNodeHealthEvluation,
+    IRawApplicationHealthEvluation, IRawServiceHealthEvaluation, IRawPartitionHealthEvaluation, IRawReplicaHealthEvaluation, IRawServicesHealthEvaluation, IRawHealthEvent
+} from '../Models/RawDataTypes';
 import { DataService } from '../services/data.service';
 import { ApplicationCollection } from '../Models/DataModels/collections/Collections';
 
 
 describe('Health Utils', () => {
+
+    describe('unhealthy tree', () => {
+
+        let parent: IUnhealthyEvaluationNode;
+        let child1: IUnhealthyEvaluationNode;
+        let child2: IUnhealthyEvaluationNode;
+        let nestedchild: IUnhealthyEvaluationNode;
+
+        beforeEach((() => {
+            parent = {
+                healthEvaluation: {
+                    treeName: '0',
+                    viewPathUrl: '0',
+                    healthState: { badgeClass: 'Ok', text: 'Ok', badgeId: 'ok' },
+                } as HealthEvaluation,
+                children: [],
+                parent: null,
+                containsErrorInPath: false,
+                displayNames: [],
+                id: 'root'
+            };
+
+            child1 = {
+                healthEvaluation: {
+                    treeName: '1',
+                    viewPathUrl: '1',
+                    healthState: { badgeClass: 'Ok', text: 'Ok', badgeId: 'ok' },
+                } as HealthEvaluation,
+                children: [],
+                parent,
+                containsErrorInPath: false,
+                displayNames: [],
+                id: 'child1'
+            };
+
+            child2 = {
+                healthEvaluation: {
+                    treeName: '2',
+                    viewPathUrl: '2',
+                    healthState: { badgeClass: 'Ok', text: 'Ok', badgeId: 'ok' },
+                } as HealthEvaluation,
+                children: [],
+                parent,
+                containsErrorInPath: false,
+                displayNames: [],
+                id: 'child2'
+            };
+
+            parent.children = [child1, child2];
+
+            nestedchild = {
+                healthEvaluation: {
+                    treeName: '3',
+                    viewPathUrl: '3',
+                    healthState: { badgeClass: 'Ok', text: 'Ok', badgeId: 'ok' },
+                } as HealthEvaluation,
+                children: [],
+                parent: child2,
+                containsErrorInPath: false,
+                displayNames: [],
+                id: 'nestedchild'
+            };
+
+            child2.children = [nestedchild];
+        }));
+
+        describe('validate getNestedNode', () => {
+            fit('validate getNestedNode no path', () => {
+                const node = getNestedNode([], parent);
+                expect(node).toEqual(parent);
+            });
+
+            fit('validate getNestedNode nested child', () => {
+                const node = getNestedNode(['child2', 'nestedchild'], parent);
+                expect(node).toEqual(nestedchild);
+            });
+
+            fit('validate getNestedNode no matching path', () => {
+                const node = getNestedNode(['child3'], parent);
+                expect(node).toBeNull();
+            });
+        });
+
+        describe('validate getParentPath', () => {
+            fit('validate getParentPath no parent', () => {
+                const parents = getParentPath(parent);
+                expect(parents.length).toEqual(0);
+            });
+
+            fit('validate getParentPath nested child', () => {
+                const parents = getParentPath(nestedchild);
+                expect(parents.length).toEqual(2);
+                expect(parents[0]).toEqual(parent);
+                expect(parents[1]).toEqual(child2);
+            });
+        });
+
+        describe('validate getLeafNodes', () => {
+            fit('validate getLeafNodes nested', () => {
+                const nodes = getLeafNodes(nestedchild, false);
+                expect(nodes.length).toEqual(1);
+
+                const node = nodes[0];
+                expect(node.displayNames.length).toEqual(2);
+                expect(node.displayNames[0]).toEqual({
+                    text: '0',
+                    link: '0',
+                    badge: 'Ok',
+                    node: parent
+                });
+
+                expect(node.displayNames[1]).toEqual({
+                    text: '2',
+                    link: '2',
+                    badge: 'Ok',
+                    node: child2
+                });
+
+                expect(nestedchild.displayNames.length).toEqual(0);
+            });
+
+            fit('validate getLeafNodes nested skip root', () => {
+                const nodes = getLeafNodes(nestedchild);
+                expect(nodes.length).toEqual(1);
+
+                const node = nodes[0];
+                expect(node.displayNames.length).toEqual(1);
+                expect(node.displayNames[0]).toEqual({
+                    text: '2',
+                    link: '2',
+                    badge: 'Ok',
+                    node: child2
+                });
+                expect(nestedchild.displayNames.length).toEqual(0);
+            });
+        });
+
+        describe('validate getParentPath', () => {
+            fit('validate getParentPath no parent', () => {
+                const parents = getParentPath(parent);
+                expect(parents.length).toEqual(0);
+            });
+
+            fit('validate getParentPath nested child', () => {
+                const parents = getParentPath(nestedchild);
+                expect(parents.length).toEqual(2);
+                expect(parents[0]).toEqual(parent);
+                expect(parents[1]).toEqual(child2);
+            });
+        });
+    });
+
     describe('parsing health events', () => {
 
         let dataService: DataService;
@@ -24,7 +179,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/nodes',
-                    displayName: 'Nodes',
+                    name: 'Nodes',
+                    uniqueId: 'Nodes'
                 });
             });
 
@@ -38,7 +194,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/node/test',
-                    displayName: 'test',
+                    name: 'test',
+                    uniqueId: 'test'
                 });
             });
 
@@ -51,7 +208,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/apps',
-                    displayName: 'applications',
+                    name: 'applications',
+                    uniqueId: 'applications'
                 });
             });
 
@@ -64,7 +222,7 @@ describe('Health Utils', () => {
                 const apps = {
                     find: (name: string) => {
                         return {
-                            raw: {TypeName: 'someType'}
+                            raw: { TypeName: 'someType' }
                         };
                     }
                 };
@@ -74,7 +232,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/apptype/someType/app/test',
-                    displayName: 'test',
+                    name: 'test',
+                    uniqueId: 'fabric:/test'
                 });
             });
 
@@ -90,7 +249,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent/service/WordCountV1%2FWordCountWebService',
-                    displayName: 'WordCountV1/WordCountWebService',
+                    name: 'WordCountV1/WordCountWebService',
+                    uniqueId: 'WordCountV1/WordCountWebService'
                 });
             });
 
@@ -100,12 +260,12 @@ describe('Health Utils', () => {
                     AggregatedHealthState: 'Warning',
                     ServiceName: 'fabric:/System%2FClusterManagerService'
                 } as IRawServiceHealthEvaluation;
-
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
 
                 expect(data).toEqual({
                     viewPathUrl: '/apptype/System/app/System/service/System%252FClusterManagerService',
-                    displayName: 'System%2FClusterManagerService',
+                    name: 'System%2FClusterManagerService',
+                    uniqueId: 'System%2FClusterManagerService'
                 });
             });
 
@@ -119,7 +279,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent/partition/512361234123465',
-                    displayName: '512361234123465',
+                    name: '512361234123465',
+                    uniqueId: '512361234123465'
                 });
             });
 
@@ -133,20 +294,27 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent/replica/512361234123465',
-                    displayName: '512361234123465',
+                    name: '512361234123465',
+                    uniqueId: '512361234123465'
                 });
             });
 
             fit('Event', () => {
+                const UnhealthyEvent: Partial<IRawHealthEvent> = {
+                    SourceId: 'someId',
+                    Property: 'Ok'
+                };
                 const health = {
-                    Kind: 'Event'
+                    Kind: 'Event',
+                    UnhealthyEvent
                 } as IRawHealthEvaluation;
 
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent',
-                    displayName: 'Event',
+                    name: 'Event',
+                    uniqueId: 'someIdOk/parent'
                 });
             });
 
@@ -160,7 +328,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent/deployedservice/manifest',
-                    displayName: 'manifest',
+                    name: 'manifest',
+                    uniqueId: 'manifest'
                 });
 
                 health.ServicePackageActivationId = '1234';
@@ -168,7 +337,8 @@ describe('Health Utils', () => {
 
                 expect(data).toEqual({
                     viewPathUrl: '/parent/deployedservice/activationid/1234manifest',
-                    displayName: 'manifest',
+                    name: 'manifest',
+                    uniqueId: 'manifest'
                 });
 
             });
@@ -181,7 +351,8 @@ describe('Health Utils', () => {
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
                 expect(data).toEqual({
                     viewPathUrl: '/parent',
-                    displayName: 'DeployedServicePackages',
+                    name: 'DeployedServicePackages',
+                    uniqueId: 'DSP/parent'
                 });
             });
             fit('Partitions', () => {
@@ -192,7 +363,8 @@ describe('Health Utils', () => {
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
                 expect(data).toEqual({
                     viewPathUrl: '/parent',
-                    displayName: 'Partitions',
+                    name: 'Partitions',
+                    uniqueId: 'PP/parent'
                 });
             });
 
@@ -204,19 +376,23 @@ describe('Health Utils', () => {
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
                 expect(data).toEqual({
                     viewPathUrl: '/parent',
-                    displayName: 'Replicas',
+                    name: 'Replicas',
+                    uniqueId: 'RR/parent'
                 });
             });
 
             fit('Services', () => {
                 const health = {
                     Kind: 'Services',
-                } as IRawHealthEvaluation;
+                    ServiceTypeName: 'testService'
+                } as IRawServicesHealthEvaluation;
 
+                health.ServiceTypeName = 'testService';
                 const data = HealthUtils.getViewPathUrl(health, dataService, '/parent');
                 expect(data).toEqual({
                     viewPathUrl: '/parent',
-                    displayName: 'Services',
+                    name: 'Services',
+                    uniqueId: 'SStestService'
                 });
             });
         });
@@ -359,3 +535,13 @@ describe('Health Utils', () => {
         });
     });
 });
+
+/*
+Kind: "Services"
+Description: "100% (1/1) services of service type 'WordCountWebServiceType' are unhealthy. The evaluation tolerates 0% unhealthy services for the service type."
+AggregatedHealthState: "Warning"
+ServiceTypeName: "WordCountWebServiceType"
+UnhealthyEvaluations: [{,…}]
+MaxPercentUnhealthyServices: 0
+TotalCount: 1
+*/

@@ -17,19 +17,6 @@ dl {
     }
 }
 
-.solid-grey {
-    border-radius: 0px !important;
-    border-color: white !important;
-    background-color: gray;
-    border-width: 2px;
-    font-size: unset;
-    line-height: unset;
-
-    &:hover {
-        color: white;
-    }
-}
-
 .active {
     background-color: #0075c9 !important;
     border-width: 2px;

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ClusterRoutingModule } from './cluster-routing.module';
 import { EssentialsComponent } from './essentials/essentials.component';
 import { DetailsComponent } from './details/details.component';
@@ -24,6 +23,7 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BackupRestoreModule } from 'src/app/modules/backup-restore/backup-restore.module';
 import { RepairTasksComponent } from './repair-tasks/repair-tasks.component';
 import { RepairTaskViewComponent } from './repair-task-view/repair-task-view.component';
+import { UnhealthyEvaluationModule } from 'src/app/modules/unhealthy-evaluation/unhealthy-evaluation.module';
 
 @NgModule({
   declarations: [EssentialsComponent, DetailsComponent, BaseComponent, MetricsComponent, ClustermapComponent,
@@ -41,6 +41,7 @@ import { RepairTaskViewComponent } from './repair-task-view/repair-task-view.com
     ChartsModule,
     NgbDropdownModule,
     BackupRestoreModule,
+    UnhealthyEvaluationModule,
     NgbNavModule,
     UpgradeProgressModule
   ]

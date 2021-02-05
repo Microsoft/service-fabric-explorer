@@ -55,8 +55,7 @@
       <h4>Unhealthy Evaluations</h4>
     </div>
     <div collapse-body>
-      <app-detail-list [list]="deployedApp.health.unhealthyEvaluations" [listSettings]="unhealthyEvaluationsListSettings"
-        *ngIf="deployedApp && deployedApp.health"></app-detail-list>
+      <app-health-viewer [unhealthyEvaluations]="deployedApp.health.unhealthyEvaluations" *ngIf="deployedApp && deployedApp.health"></app-health-viewer>
     </div>
   </app-collapse-container>
 </div>

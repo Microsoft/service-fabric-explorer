@@ -231,6 +231,11 @@ export interface IRawDeployedServicePackageHealthEvaluation extends IRawHealthEv
         ServiceManifestName: string;
         ServicePackageActivationId?: string;
     }
+
+export interface IRawServicesHealthEvaluation extends IRawHealthEvaluation {
+    ServiceTypeName: string;
+}
+
 export interface IRawUnhealthyEvent {
         SourceId: string;
         Property: string;

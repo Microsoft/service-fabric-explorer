@@ -140,7 +140,7 @@
             <h4>Unhealthy Evaluations</h4>
         </div>
         <div collapse-body>
-            <app-detail-list [list]="app.health.unhealthyEvaluations" [listSettings]="unhealthyEvaluationsListSettings"></app-detail-list>
+            <app-health-viewer [unhealthyEvaluations]="app.health.unhealthyEvaluations"></app-health-viewer>
         </div>
     </app-collapse-container>
 </div>

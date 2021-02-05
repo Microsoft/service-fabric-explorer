@@ -18,13 +18,11 @@ export class EssentialsComponent extends PartitionBaseControllerDirective {
   unhealthyEvaluationsListSettings: ListSettings;
   listSettings: ListSettings;
 
-
   constructor(protected data: DataService, injector: Injector, private settings: SettingsService) {
     super(data, injector);
   }
 
   setup() {
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
 
   }
 

@@ -56,7 +56,7 @@ export class HealthBase<T extends IRawHealth> extends DataModelBase<T> {
         // There is no unique ID to identify the unhealthy evaluations collection, update the collection directly.
         // Make sure that the apps are initialized because some of the parsedHealth Evaluations need to reference the app's collection and that needs to be set.
         return this.data.apps.ensureInitialized().pipe(map( () => {
-            this.unhealthyEvaluations = HealthUtils.getParsedHealthEvaluations(this.raw.UnhealthyEvaluations, null, null, this.data);
+            this.unhealthyEvaluations = HealthUtils.getParsedHealthEvaluations(this.raw.UnhealthyEvaluations, 0, null, this.data);
         }));
     }
 }

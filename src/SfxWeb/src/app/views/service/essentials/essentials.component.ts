@@ -33,9 +33,6 @@ export class EssentialsComponent extends ServiceBaseControllerDirective {
       new ListColumnSettingForBadge('healthState', 'Health State'),
       new ListColumnSettingWithFilter('raw.PartitionStatus', 'Status'),
     ]);
-
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
-
   }
 
   refresh(messageHandler?: IResponseMessageHandler): Observable<any>{

@@ -21,11 +21,6 @@ export class EssentialsComponent extends ReplicaBaseControllerDirective {
     super(data, injector);
   }
 
-  setup() {
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
-
-  }
-
   refresh(messageHandler?: IResponseMessageHandler): Observable<any>{
       if (!this.isSystem) {
           try {

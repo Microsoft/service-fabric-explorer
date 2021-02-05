@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ApplicationRoutingModule } from './application-routing.module';
 import { BaseComponent } from './base/base.component';
 import { EssentialsComponent } from './essentials/essentials.component';
@@ -17,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbTypeaheadModule, NgbDropdownModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActionRowComponent } from './action-row/action-row.component';
 import { BackupComponent } from './backup/backup.component';
+import { UnhealthyEvaluationModule } from 'src/app/modules/unhealthy-evaluation/unhealthy-evaluation.module';
 import { ChartsModule } from 'src/app/modules/charts/charts.module';
 
 @NgModule({
@@ -31,6 +31,7 @@ import { ChartsModule } from 'src/app/modules/charts/charts.module';
     NgbTypeaheadModule,
     NgbDropdownModule,
     NgbButtonsModule,
+    UnhealthyEvaluationModule,
     UpgradeProgressModule,
     ChartsModule
   ]

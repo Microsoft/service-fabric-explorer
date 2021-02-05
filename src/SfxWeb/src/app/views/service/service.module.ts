@@ -12,6 +12,7 @@ import { DetailListTemplatesModule } from 'src/app/modules/detail-list-templates
 import { EventStoreModule } from 'src/app/modules/event-store/event-store.module';
 import { ScaleServiceComponent } from './scale-service/scale-service.component';
 import { BackupComponent } from './backup/backup.component';
+import { UnhealthyEvaluationModule } from 'src/app/modules/unhealthy-evaluation/unhealthy-evaluation.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'src/app/modules/charts/charts.module';
 
@@ -25,6 +26,7 @@ import { ChartsModule } from 'src/app/modules/charts/charts.module';
     DetailListTemplatesModule,
     EventStoreModule,
     FormsModule,
+    UnhealthyEvaluationModule,
     ReactiveFormsModule,
     ChartsModule
   ],

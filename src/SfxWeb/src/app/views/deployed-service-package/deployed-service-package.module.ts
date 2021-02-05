@@ -8,6 +8,7 @@ import { ManifestComponent } from './manifest/manifest.component';
 import { EssentialsComponent } from './essentials/essentials.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DetailListTemplatesModule } from 'src/app/modules/detail-list-templates/detail-list-templates.module';
+import { UnhealthyEvaluationModule } from 'src/app/modules/unhealthy-evaluation/unhealthy-evaluation.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { DetailListTemplatesModule } from 'src/app/modules/detail-list-templates
     CommonModule,
     SharedModule,
     DeployedServicePackageRoutingModule,
-    DetailListTemplatesModule
+    DetailListTemplatesModule,
+    UnhealthyEvaluationModule
   ]
 })
 export class DeployedServicePackageModule { }

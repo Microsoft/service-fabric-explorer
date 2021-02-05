@@ -14,8 +14,6 @@ import { Observable } from 'rxjs';
 export class EssentialsComponent extends ServiceApplicationsBaseControllerDirective {
 
   listSettings: ListSettings;
-  unhealthyEvaluationsListSettings: ListSettings;
-
 
   constructor(protected data: DataService, injector: Injector, private settings: SettingsService) {
     super(data, injector);
@@ -30,9 +28,6 @@ export class EssentialsComponent extends ServiceApplicationsBaseControllerDirect
       new ListColumnSettingForBadge('healthState', 'Health State'),
       new ListColumnSettingWithFilter('raw.ServiceStatus', 'Status')
   ]);
-
-    this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();
-
   }
 
   refresh(messageHandler?: IResponseMessageHandler): Observable<any>{

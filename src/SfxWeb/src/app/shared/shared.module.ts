@@ -21,6 +21,7 @@ import { ClusterUpgradeBannerComponent } from './component/cluster-upgrade-banne
 import { DualDatePickerComponent } from './component/dual-date-picker/dual-date-picker.component';
 import { AdvancedOptionComponent } from './component/advanced-option/advanced-option.component';
 import { ReplicaAddressComponent } from './component/replica-address/replica-address.component';
+import { ToggleComponent } from './component/toggle/toggle.component';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { LocalTimeComponent } from './component/local-time/local-time.component';
 import { DisplayTimeComponent } from './component/display-time/display-time.component';
@@ -29,7 +30,7 @@ import { DisplayTimeComponent } from './component/display-time/display-time.comp
                  CollapseContainerComponent, RefreshRateComponent, DragDirective, ActionDialogComponent, ManifestComponent,
                  ActionCollectionDropDownComponent, InputComponent, ToastContainerComponent, CheckBoxComponent,
                  ClusterUpgradeBannerComponent, DualDatePickerComponent, AdvancedOptionComponent, ReplicaAddressComponent,
-                 FormatDatePipe, LocalTimeComponent, DisplayTimeComponent],
+                 FormatDatePipe, LocalTimeComponent, DisplayTimeComponent, ToggleComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -43,6 +44,6 @@ import { DisplayTimeComponent } from './component/display-time/display-time.comp
             CollapseContainerComponent, RefreshRateComponent, DragDirective, ActionDialogComponent, ManifestComponent,
             ActionCollectionDropDownComponent, InputComponent, ToastContainerComponent, CheckBoxComponent,
             ClusterUpgradeBannerComponent, DualDatePickerComponent, AdvancedOptionComponent, ReplicaAddressComponent,
-            FormatDatePipe, LocalTimeComponent, DisplayTimeComponent]
+            FormatDatePipe, LocalTimeComponent, DisplayTimeComponent, ToggleComponent]
 })
 export class SharedModule { }

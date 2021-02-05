@@ -130,15 +130,14 @@
 </div>
 
 <div class="detail-pane essen-pane">
-  <app-collapse-container sectionName="Unhealthy Evaluations">
-    <div collapse-header>
-      <h4>Unhealthy Evaluations</h4>
-    </div>
-    <div collapse-body>
-      <app-detail-list [list]="service.health.unhealthyEvaluations" [listSettings]="unhealthyEvaluationsListSettings"
-        *ngIf="service && service.health"></app-detail-list>
-    </div>
-  </app-collapse-container>
+    <app-collapse-container sectionName="Unhealthy Evaluations">
+        <div collapse-header>
+            <h4>Unhealthy Evaluations</h4>
+        </div>
+        <div collapse-body>
+            <app-health-viewer [unhealthyEvaluations]="service.health.unhealthyEvaluations" *ngIf="service && service.health"></app-health-viewer>
+        </div>
+    </app-collapse-container>
 </div>
 
 <div class="detail-pane essen-pane">
