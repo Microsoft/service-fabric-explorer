@@ -153,8 +153,9 @@ export class SortPriorities {
         Primary: 2,
         ActiveSecondary: 3,
         IdleSecondary: 4,
-        ActiveSecondaryAuxiliary: 5,
-        IdleSecondaryAuxiliary: 6,
+        PrimaryAuxiliary: 5,
+        ActiveAuxiliary: 6,
+        IdleAuxiliary: 7,
     };
 }
 
