@@ -309,10 +309,10 @@ export class CreateServiceDescription {
         } else {
             delete descriptionCloned.StandByReplicaKeepDurationSeconds;
         }
-        
+
         if (this.raw.AuxiliaryReplicaCount !== null && this.raw.AuxiliaryReplicaCount > 0) {
             // tslint:disable-next-line:no-bitwise
-            flags ^= 0x20;
+            flags ^= 0x80;
         } else {
             delete descriptionCloned.AuxiliaryReplicaCount;
             if (this.raw.ServiceLoadMetrics !== null && this.raw.ServiceLoadMetrics.length > 0) {
