@@ -33,6 +33,7 @@ import { IDataModelCollection } from '../Models/DataModels/collections/Collectio
 import { DeployedApplicationCollection } from '../Models/DataModels/collections/DeployedApplicationCollection';
 import { MatDialog } from '@angular/material/dialog';
 import { RepairTaskCollection } from '../Models/DataModels/collections/RepairTaskCollection';
+import { InfrastructureJobCollection } from '../Models/DataModels/collections/InfrastructureJobCollection';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,7 @@ export class DataService {
   public imageStore: ImageStore;
   public backupPolicies: BackupPolicyCollection;
   public repairCollection: RepairTaskCollection;
+  public infrastructureCollection: InfrastructureJobCollection;
 
   public readOnlyHeader: boolean =  null;
   public clusterNameMetadata: string = null;
@@ -71,6 +73,7 @@ export class DataService {
     this.systemApp = new SystemApplication(this);
     this.backupPolicies = new BackupPolicyCollection(this);
     this.repairCollection = new RepairTaskCollection(this);
+    this.infrastructureCollection = new InfrastructureJobCollection(this);
    }
 
   public actionsEnabled(): boolean {

@@ -965,6 +965,26 @@ export interface IRawRepairTask {
         ResultDetails?: string;
     }
 
+export interface IRawInfrastructureJob {
+    Id: string;
+    ImpactAction: string;
+    JobStatus: string; 
+    AcknowledgementStatus: string; 
+    ActionStatus: string ;
+    CurrentlyImpactedRoleInstances: IRawRoleInstaceImpact[];
+    RepairTasks: IRawInfraRepairTask[];
+}
+export interface IRawInfraRepairTask {
+    TaskId: string;
+    State: string;
+}
+
+export interface IRawRoleInstaceImpact {
+    Name: string;
+    UD: string;
+    ImpactTypes: string[];
+}
+
 
 export interface INodesStatusDetails {
         nodeType: string;

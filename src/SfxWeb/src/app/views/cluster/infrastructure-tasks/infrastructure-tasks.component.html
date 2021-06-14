@@ -1,0 +1,17 @@
+<p>infrastructure-tasks works!</p>
+<form class="action-modal">
+    <div class="modal-header">
+        <h4 class="modal-title">Enabled Entities </h4>
+    </div>
+    <div class="modal-body table-responsive">
+        <table>
+            <ng-container *ngFor="let entity of infraJobsCollection.collection">
+                <tr *ngFor="let job of entity | keyvalue">
+                    <th>{{job.key}}</th>
+                    <td style="margin-left: 20px;">{{job.value}}</td>
+                </tr>
+                <br>
+            </ng-container>
+        </table>
+    </div>
+</form> 
