@@ -178,12 +178,12 @@ export class Node extends DataModelBase<IRawNode> {
         this.actions.add(new ActionWithConfirmationDialog(
             this.data.dialog,
             'restartNode',
-            'Restart',
-            'Restarting',
+            'Restart Fabric Services',
+            'Restarting Fabric Services',
             () => this.restart(),
             () => true,
-            'Confirm Node Restart',
-            `Restart node ${this.name} from the cluster ${window.location.host}?`,
+            'Confirm Fabric Services Restart',
+            `Restart node ${this.name} fabric services from the cluster ${window.location.host}?`,
             // `Restart node ${this.name} from the cluster ${this.data.$location.host()}?`, TODO
             this.name
         ));

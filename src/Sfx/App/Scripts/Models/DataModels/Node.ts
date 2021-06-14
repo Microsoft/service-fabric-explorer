@@ -161,12 +161,12 @@ module Sfx {
                 this.data.$uibModal,
                 this.data.$q,
                 "restartNode",
-                "Restart",
-                "Restarting",
+                "Restart Fabric Services",
+                "Restarting Fabric Services",
                 () => this.restart(),
                 () => true,
-                "Confirm Node Restart",
-                `Restart node ${this.name} from the cluster ${this.data.$location.host()}?`,
+                "Confirm Fabric Services Restart",
+                `Restart node ${this.name} fabric services from the cluster ${this.data.$location.host()}?`,
                 this.name
             ));
         }
