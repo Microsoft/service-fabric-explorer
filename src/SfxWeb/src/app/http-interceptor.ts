@@ -59,10 +59,9 @@ export class ReadOnlyHeaderInterceptor implements HttpInterceptor {
 export class GlobalHeaderInterceptor implements HttpInterceptor {
   constructor() {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let newHeaders = req.headers;
     // ADD ADDITIONAL HEADERS HERE
-    newHeaders = newHeaders.append('x-servicefabricclienttype', 'SFX')
-                           .append('sfx-build', environment.version);
+    const newHeaders = req.headers.append(Constants.SfxTelemetryMetadataName, Constants.SfxTelemetryHeaderValue)
+                           .append(Constants.SfxBuildMetadataName, environment.version);
 
     return next.handle(req.clone({headers: newHeaders}));
  }

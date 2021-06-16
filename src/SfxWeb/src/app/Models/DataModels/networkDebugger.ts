@@ -7,6 +7,7 @@ export interface IRequest {
     duration: number;
     data: any;
     apiDesc: string;
+    guid: string;
 }
 
 export interface IRequestsData {

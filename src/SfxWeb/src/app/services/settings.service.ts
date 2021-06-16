@@ -141,6 +141,7 @@ export class SettingsService {
         new ListColumnSetting('statusCode', 'Status Code'),
         new ListColumnSetting('errorMessage', 'Error Message'),
         new ListColumnSetting('duration', 'Duration(MS)'),
+        new ListColumnSettingWithCopyText('guid', 'Request Id'),
         new ListColumnSettingWithUtcTime('startTime', 'Start Time'),
       ];
 

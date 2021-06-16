@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { AdalService } from './services/adal.service';
 import { of } from 'rxjs';
 import { AadMetadata } from './Models/DataModels/Aad';
+import { Constants } from './Common/Constants';
 
 describe('Http interceptors', () => {
     let httpClient: HttpClient;
@@ -70,8 +71,8 @@ describe('Http interceptors', () => {
         httpClient.get('/test').subscribe();
 
         const requests = httpMock.match({ method: 'get' });
-        expect(requests[0].request.headers.get('x-servicefabricclienttype')).toBe('SFX');
-        expect(requests[0].request.headers.get('sfx-build')).toBe(environment.version);
+        expect(requests[0].request.headers.get(Constants.SfxTelemetryMetadataName)).toBe(Constants.SfxTelemetryHeaderValue);
+        expect(requests[0].request.headers.get(Constants.SfxBuildMetadataName)).toBe(environment.version);
     });
 
     fit('aad auth not enabled', async () => {

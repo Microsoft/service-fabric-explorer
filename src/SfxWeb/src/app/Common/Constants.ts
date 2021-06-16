@@ -37,16 +37,14 @@ export class Constants {
     public static SfxTelemetryMetadataName = 'X-ServiceFabricClientType';
     public static SfxTelemetryHeaderValue = 'SFX';
 
+    // request id header
+    public static SfxRequestIdHeaderName = 'X-ServiceFabricRequestId';
+
     // Custom headers
     public static SfxReadonlyHeaderName = 'SFX-Readonly';
     public static SfxClusterNameHeaderName = 'SFX-ClusterName';
     public static SfxReadonlyMetadataName = 'SFXReadonly';
     public static SfxClusterNameMetadataName = 'SFXClusterName';
-
-    // Theming
-    public static ThemeSourceQueryStringName = 'theme_source';
-    public static ThemeNameQueryStringName = 'theme_name';
-    public static ThemeNameMonitorPropertyName = 'ThemeName';
 
     // Items per page limit
     public static PaginationLimitMin = 5;

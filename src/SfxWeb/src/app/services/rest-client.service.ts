@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService, MessageSeverity } from './message.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HealthStateFilterFlags, IClusterHealthChunkQueryDescription } from '../Models/HealthChunkRawDataTypes';
 import { IResponseMessageHandler, ResponseMessageHandlers } from '../Common/ResponseMessageHandlers';
 import { Observable, of, throwError } from 'rxjs';
@@ -23,6 +23,8 @@ import { StandaloneIntegration } from '../Common/StandaloneIntegration';
 import { AadMetadata } from '../Models/DataModels/Aad';
 import { environment } from 'src/environments/environment';
 import { IRequest, NetworkDebugger } from '../Models/DataModels/networkDebugger';
+import { uuid4 } from 'vis-uuid';
+import { Constants } from '../Common/Constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -836,46 +838,56 @@ export class RestClientService {
         }));
   }
 
+  private generateGuidHeaders(): {guid: string, headers: HttpHeaders} {
+    const guid = uuid4();
+    return {guid, headers: new HttpHeaders().append(Constants.SfxRequestIdHeaderName, guid)};
+  }
+
   private get<T>(url: string, apiDesc: string, messageHandler?: IResponseMessageHandler): Observable<T> {
-      const result = this.httpClient.get<T>(environment.baseUrl + url);
-      if (!messageHandler) {
+    const headerInfo = this.generateGuidHeaders();
+    const result = this.httpClient.get<T>(environment.baseUrl + url, {headers: headerInfo.headers});
+    if (!messageHandler) {
           messageHandler = ResponseMessageHandlers.getResponseMessageHandler;
       }
-      return this.handleResponse<T>(apiDesc, result as any, messageHandler);
+    return this.handleResponse<T>(apiDesc, result as any, headerInfo.guid, messageHandler);
   }
 
   private post<T>(url: string, apiDesc: string, data?: any, messageHandler?: IResponseMessageHandler): Observable<T> {
-      const result = this.httpClient.post<T>(environment.baseUrl  + url, data);
+      const headerInfo = this.generateGuidHeaders();
+      const result = this.httpClient.post<T>(environment.baseUrl  + url, data, {headers: headerInfo.headers});
       if (!messageHandler) {
           messageHandler = ResponseMessageHandlers.postResponseMessageHandler;
       }
-      return this.handleResponse<T>(apiDesc, result as any, messageHandler);
+      return this.handleResponse<T>(apiDesc, result as any, headerInfo.guid, messageHandler);
   }
 
   private put<T>(url: string, apiDesc: string, data?: any, messageHandler?: IResponseMessageHandler): Observable<T> {
-      const result = this.httpClient.put<T>(environment.baseUrl  + url, data);
-      if (!messageHandler) {
+    const headerInfo = this.generateGuidHeaders();
+    const result = this.httpClient.put<T>(environment.baseUrl  + url, data, {headers: headerInfo.headers});
+    if (!messageHandler) {
           messageHandler = ResponseMessageHandlers.putResponseMessageHandler;
       }
-      return this.handleResponse<T>(apiDesc, result as any, messageHandler);
+    return this.handleResponse<T>(apiDesc, result as any, headerInfo.guid, messageHandler);
   }
 
   private delete<T>(url: string, apiDesc: string, messageHandler?: IResponseMessageHandler): Observable<T> {
-      const result = this.httpClient.delete<T>(environment.baseUrl  + url);
-      if (!messageHandler) {
+    const headerInfo = this.generateGuidHeaders();
+    const result = this.httpClient.delete<T>(environment.baseUrl  + url, {headers: headerInfo.headers});
+    if (!messageHandler) {
           messageHandler = ResponseMessageHandlers.deleteResponseMessageHandler;
       }
-      return this.handleResponse<T>(apiDesc, result as any, messageHandler);
+    return this.handleResponse<T>(apiDesc, result as any, headerInfo.guid, messageHandler);
   }
 
-  private handleResponse<T>(apiDesc: string, resultPromise: Observable<any>, messageHandler?: IResponseMessageHandler): Observable<T> {
+  private handleResponse<T>(apiDesc: string, resultPromise: Observable<any>, guid: string, messageHandler?: IResponseMessageHandler): Observable<T> {
     const data: IRequest = {
         startTime: new Date().toISOString(),
         apiDesc,
         errorMessage: '',
         duration: 0,
         data: null,
-        statusCode: 200
+        statusCode: 200,
+        guid
     };
     return resultPromise.pipe(catchError((err: HttpErrorResponse) => {
         const header = `${err.status.toString()} : ${apiDesc}`;
