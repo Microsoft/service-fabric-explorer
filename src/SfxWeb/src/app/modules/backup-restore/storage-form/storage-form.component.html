@@ -9,6 +9,10 @@
                     AzureBlobStore
                 </label>
                 <label>
+                    <input type="radio" formControlName="StorageKind" value="ManagedIdentityAzureBlobStore">
+                    ManagedIdentityAzureBlobStore
+                </label>
+                <label>
                     <input type="radio" formControlName="StorageKind" value="FileShare">
                     FileShare
                 </label><br />
@@ -27,6 +31,32 @@
             <dt>ContainerName</dt>
             <dd>
                 <input type="text" class="input-flat" formControlName="ContainerName" name="ContainerName">
+            </dd>
+        </dl>
+        <dl class="dl-horizontal" *ngIf="localForm.value.StorageKind === 'ManagedIdentityAzureBlobStore'">
+            <dt>FriendlyName</dt>
+            <dd>
+                <input type="text" class="input-flat" formControlName="FriendlyName" name="FriendlyName">
+            </dd>
+            <dt>BlobServiceUri</dt>
+            <dd>
+                <input type="text" class="input-flat" formControlName="BlobServiceUri"
+                    name="BlobServiceUri">
+            </dd>
+            <dt>ContainerName</dt>
+            <dd>
+                <input type="text" class="input-flat" formControlName="ContainerName" name="ContainerName">
+            </dd>
+            <dt>ManagedIdentityType</dt>
+            <dd>
+                <label>
+                    <input type="radio" formControlName="ManagedIdentityType" value="Cluster">
+                    Cluster
+                </label>
+                <label>
+                    <input type="radio" formControlName="ManagedIdentityType" value="VMSS">
+                    VMSS
+                </label><br />
             </dd>
         </dl>
         <dl class="dl-horizontal" *ngIf="localForm.value.StorageKind === 'FileShare'">

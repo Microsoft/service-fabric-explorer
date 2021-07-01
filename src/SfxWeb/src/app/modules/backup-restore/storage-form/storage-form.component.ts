@@ -22,6 +22,8 @@ export class StorageFormComponent implements OnInit {
       Path: [''],
       ConnectionString: [''],
       ContainerName: [''],
+      BlobServiceUri: [''],
+      ManagedIdentityType: [''],
       IsEmptyPrimaryCredential: [true],
       PrimaryUserName: [''],
       PrimaryPassword: [''],
@@ -54,6 +56,8 @@ export class StorageFormComponent implements OnInit {
       Path: '',
       ConnectionString: '',
       ContainerName: '',
+      BlobServiceUri: '',
+      ManagedIdentityType: '',
       IsEmptyPrimaryCredential: true,
       PrimaryUserName: '',
       PrimaryPassword: '',
@@ -81,6 +85,9 @@ export class StorageFormComponent implements OnInit {
       storage.get('Path').setValidators(null);
       this.updateStorageKindValidatorsPrimaryCredentials(storage, true);
       this.updateStorageKindValidatorsSecondaryCredentials(storage, true);
+
+      storage.get('BlobServiceUri').setValidators(null);
+      storage.get('ManagedIdentityType').setValidators(null);
     }
 
     if (storageKind === 'FileShare') {
@@ -92,11 +99,31 @@ export class StorageFormComponent implements OnInit {
       storage.get('IsEmptySecondaryCredential').setValue(false);
       this.updateStorageKindValidatorsPrimaryCredentials(storage, false);
       this.updateStorageKindValidatorsSecondaryCredentials(storage, false);
+
+      storage.get('BlobServiceUri').setValidators(null);
+      storage.get('ManagedIdentityType').setValidators(null);
     }
+
+    if(storageKind === 'ManagedIdentityAzureBlobStore')
+    {
+      storage.get('ConnectionString').setValidators(null);
+
+      storage.get('Path').setValidators(null);
+      this.updateStorageKindValidatorsPrimaryCredentials(storage, true);
+      this.updateStorageKindValidatorsSecondaryCredentials(storage, true);
+
+      storage.get('BlobServiceUri').setValidators([Validators.required]);
+      storage.get('ManagedIdentityType').setValidators([Validators.required]);
+      storage.get('ContainerName').setValidators([Validators.required]);
+    }
+
     storage.get('ContainerName').updateValueAndValidity();
     storage.get('ConnectionString').updateValueAndValidity();
     storage.get('Path').updateValueAndValidity();
+    storage.get('BlobServiceUri').updateValueAndValidity();
+    storage.get('ManagedIdentityType').updateValueAndValidity();
   }
+
   updateStorageKindValidatorsPrimaryCredentials(storage: AbstractControl, IsEmptyPrimaryCredential: boolean) {
     if (IsEmptyPrimaryCredential)
     {
