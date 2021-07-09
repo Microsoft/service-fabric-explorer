@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ListColumnSetting, ListSettings, ListColumnSettingForBadge, ListColumnSettingForLink, ListColumnSettingWithCopyText, ListColumnSettingWithUtcTime } from '../Models/ListSettings';
+import { ListColumnSetting, ListSettings, ListColumnSettingForBadge, ListColumnSettingForLink, ListColumnSettingWithCopyText, ListColumnSettingWithUtcTime, ListColumnSettingForHealthEvent } from '../Models/ListSettings';
 import { NodeStatusConstants, Constants } from '../Common/Constants';
 import { ClusterLoadInformation } from '../Models/DataModels/Cluster';
 import { NodeLoadInformation } from '../Models/DataModels/Node';
@@ -77,7 +77,7 @@ export class SettingsService {
           [
               new ListColumnSettingForLink('kind', 'Kind', (item) =>  item.viewPath),
               new ListColumnSettingForBadge('healthState', 'Health State'),
-              new ListColumnSettingWithCopyText('description', 'Description'),
+              new ListColumnSettingForHealthEvent(),
               new ListColumnSettingWithUtcTime('sourceTimeStamp', 'Source UTC'),
           ]);
   }
@@ -97,7 +97,7 @@ export class SettingsService {
           // Second row with description
           [
               new ListColumnSetting('placeholder', 'placeholder', {enableFilter: false}), // Empty column
-              new ListColumnSettingWithCopyText('description', 'Description', {enableFilter: false, colspan: 7})
+              new ListColumnSettingForHealthEvent(),
           ],
           false,
           (item) => item.description.length > 0

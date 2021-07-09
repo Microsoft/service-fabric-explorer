@@ -11,12 +11,24 @@ import { checkForJson } from 'src/app/Utils/healthUtils';
 // -----------------------------------------------------------------------------
 
 export class HealthEvaluation extends DataModelBase<IRawHealthEvaluation> {
+    public showAsRichText = false;
+    public jsonData = null;
     public viewPathUrl = '';
     public children: any[];
     public displayName: string;
     public constructor(raw: IRawHealthEvaluation, public level: number = 0, parent: HealthEvaluation = null, viewPathUrl: string = '') {
         super(null, raw, parent);
         this.viewPathUrl = viewPathUrl;
+        try {
+          this.jsonData =  JSON.parse(this.raw.UnhealthyEvent.Description.trim());
+          this.showAsRichText = true;
+      } catch (e) {
+
+        }
+    }
+
+    changeDefaultView() {
+        this.showAsRichText = !this.showAsRichText;
     }
 
     public get viewPath(): string {

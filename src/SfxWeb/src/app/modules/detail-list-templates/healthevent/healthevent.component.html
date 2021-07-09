@@ -1,0 +1,13 @@
+<div class="container">
+    <div style="float: right;" (click)="item.changeDefaultView()" *ngIf="item.jsonData">
+        <span *ngIf="item.showAsRichText">Show Raw</span>
+        <span *ngIf="!item.showAsRichText">Show Rich</span>
+    </div>
+    <app-clip-board [text]="item.description" style="display: inline-block;"></app-clip-board>
+    <div *ngIf="!item.showAsRichText">
+        <p style="white-space: pre-wrap; display: inline-block;" [innerHtml]="item.description"></p>
+    </div>
+    <div *ngIf="item.showAsRichText">
+      <app-detail-view-part [data]="item.jsonData" ></app-detail-view-part>
+    </div>
+</div>

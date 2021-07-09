@@ -8,6 +8,7 @@ import { DetailBaseComponent } from '../ViewModels/detail-table-base.component';
 import { Type } from '@angular/core';
 import { UtcTimestampComponent } from '../modules/detail-list-templates/utc-timestamp/utc-timestamp.component';
 import { ITextAndBadge } from '../Utils/ValueResolver';
+import { HealtheventComponent } from '../modules/detail-list-templates/healthevent/healthevent.component';
 
 // -----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
@@ -337,5 +338,12 @@ export class ListColumnSettingWithCustomComponent extends ListColumnSetting impl
                        config?: IListColumnAdditionalSettings) {
 
         super(propertyPath, displayName, config);
+    }
+}
+
+export class ListColumnSettingForHealthEvent extends ListColumnSetting implements ITemplate {
+    template = HealtheventComponent;
+    public constructor() {
+        super('', 'Description', { enableFilter: true });
     }
 }

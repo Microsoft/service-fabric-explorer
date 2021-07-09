@@ -10,8 +10,17 @@ import { checkForJson, HealthUtils } from 'src/app/Utils/healthUtils';
 import { map, tap } from 'rxjs/operators';
 
 export class HealthEvent extends DataModelBase<IRawHealthEvent> {
+    isjsonDescription = false;
+
     public constructor(data: DataService, raw: IRawHealthEvent) {
         super(data, raw);
+        try {
+          JSON.parse(this.raw.Description.trim());
+          this.isjsonDescription  = true;
+      } catch (e) {
+          this.isjsonDescription = false;
+      }
+        console.log(this.isjsonDescription);
     }
 
     public get uniqueId(): string {

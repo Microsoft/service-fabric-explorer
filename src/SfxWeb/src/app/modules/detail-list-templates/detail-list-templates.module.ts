@@ -12,12 +12,13 @@ import { NgbPaginationModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstr
 import { FormsModule } from '@angular/forms';
 import { UtcTimestampComponent } from './utc-timestamp/utc-timestamp.component';
 import { ExportModalComponent } from './export-modal/export-modal.component';
+import { HealtheventComponent } from './healthevent/healthevent.component';
 
 
 
 @NgModule({
   declarations: [HyperLinkComponent, DetailTableResolverComponent, ResolverDirective, CopyTextComponent, ResolverDirective,
-                 DetailListComponent, PagerComponent, UtcTimestampComponent, ExportModalComponent],
+                 DetailListComponent, PagerComponent, UtcTimestampComponent, ExportModalComponent, HealtheventComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -26,6 +27,6 @@ import { ExportModalComponent } from './export-modal/export-modal.component';
     NgbDropdownModule,
     FormsModule
   ],
-  exports: [DetailTableResolverComponent, HyperLinkComponent, CopyTextComponent, DetailListComponent]
+  exports: [DetailTableResolverComponent, HyperLinkComponent, CopyTextComponent, DetailListComponent, HealtheventComponent]
 })
 export class DetailListTemplatesModule { }
