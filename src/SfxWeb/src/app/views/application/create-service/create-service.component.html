@@ -69,6 +69,10 @@
                     <dd *ngIf="serviceType.raw.ServiceTypeDescription.IsStateful">
                         <input type="number" class="input-flat" autocomplete="off" [ngModelOptions]="{standalone: true}" [(ngModel)]="description.raw.TargetReplicaSetSize" aria-label="Target Replica Set Size" min="1" aria-valuemin="1" integer>
                     </dd>
+                    <dt *ngIf="serviceType.raw.ServiceTypeDescription.IsStateful && serviceType.raw.ServiceTypeDescription.HasPersistedState">Auxiliary Replica Count</dt>
+                    <dd *ngIf="serviceType.raw.ServiceTypeDescription.IsStateful && serviceType.raw.ServiceTypeDescription.HasPersistedState">
+                        <input type="number" class="input-flat" autocomplete="off" [ngModelOptions]="{standalone: true}" [(ngModel)]="description.raw.AuxiliaryReplicaCount" aria-label="Auxiliary Replica Count" min="0" aria-valuemin="0" integer>
+                    </dd>
                     <dt *ngIf="serviceType.raw.ServiceTypeDescription.IsStateful" title="Replica Restart Wait Duration">Replica Restart Wait Duration</dt>
                     <dd *ngIf="serviceType.raw.ServiceTypeDescription.IsStateful">
                         <input type="number" class="input-flat" autocomplete="off" placeholder="Duration in seconds" [ngModelOptions]="{standalone: true}" [(ngModel)]="description.raw.ReplicaRestartWaitDurationSeconds"
@@ -258,6 +262,7 @@
                                         <th>Name</th>
                                         <th>Primary</th>
                                         <th>Secondary</th>
+                                        <th *ngIf="description.raw.AuxiliaryReplicaCount > 0">Auxiliary</th>
                                         <th>Weight</th>
                                         <th>
                                             <button (click)="description.addLoadMetric()" class="simple-button">Add</button>
@@ -274,6 +279,9 @@
                                         </td>
                                         <td>
                                             <input type="number" class="input-flat" autocomplete="off" [ngModelOptions]="{standalone: true}" [(ngModel)]="loadMetric.SecondaryDefaultLoad" required aria-label="Secondary default load" min="0" aria-valuemin="0">
+                                        </td>
+                                        <td *ngIf="description.raw.AuxiliaryReplicaCount > 0">
+                                            <input type="number" class="input-flat" autocomplete="off" [ngModelOptions]="{standalone: true}" [(ngModel)]="loadMetric.AuxiliaryDefaultLoad" required aria-label="Auxiliary default load" min="0" aria-valuemin="0">
                                         </td>
                                         <td>
                                             <div ngbDropdown container="body">

@@ -1,0 +1,31 @@
+{
+    "ServiceKind": "Stateful",
+    "ApplicationName": "fabric:/VisualObjectsApplicationType",
+    "ServiceName": "fabric:/VisualObjectsApplicationType/VisualObjects.ActorService",
+    "ServiceTypeName": "VisualObjects.ActorServiceType",
+    "InitializationData": [],
+    "PartitionDescription": {
+        "PartitionScheme": "UniformInt64Range",
+        "Count": 10,
+        "LowKey": "-9223372036854775808",
+        "HighKey": "9223372036854775807"
+    },
+    "TargetReplicaSetSize": 3,
+    "MinReplicaSetSize": 2,
+    "AuxiliaryReplicaCount": 2,
+    "HasPersistedState": true,
+    "PlacementConstraints": "",
+    "CorrelationScheme": [],
+    "ServiceLoadMetrics": [],
+    "ServicePlacementPolicies": [],
+    "Flags": 47,
+    "ReplicaRestartWaitDurationSeconds": 1800,
+    "QuorumLossWaitDurationSeconds": 3214202341,
+    "StandByReplicaKeepDurationSeconds": 604800,
+    "DefaultMoveCost": "Zero",
+    "IsDefaultMoveCostSpecified": true,
+    "ServicePackageActivationMode": "SharedProcess",
+    "ServiceDnsName": "",
+    "ScalingPolicies": [],
+    "ServicePlacementTimeLimitSeconds": 0
+}

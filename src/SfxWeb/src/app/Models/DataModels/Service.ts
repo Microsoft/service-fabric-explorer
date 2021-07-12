@@ -309,6 +309,17 @@ export class CreateServiceDescription {
         } else {
             delete descriptionCloned.StandByReplicaKeepDurationSeconds;
         }
+
+        if (this.raw.AuxiliaryReplicaCount !== null && this.raw.AuxiliaryReplicaCount > 0) {
+            // tslint:disable-next-line:no-bitwise
+            flags ^= 0x80;
+        } else {
+            delete descriptionCloned.AuxiliaryReplicaCount;
+            if (this.raw.ServiceLoadMetrics !== null && this.raw.ServiceLoadMetrics.length > 0) {
+                descriptionCloned.ServiceLoadMetrics.forEach(metric => delete metric.AuxiliaryDefaultLoad);
+            }
+        }
+
         descriptionCloned.Flags = flags;
         descriptionCloned.InitializationData = Utils.hexToBytes(this.initializationData);
         return descriptionCloned;
@@ -392,7 +403,8 @@ export class CreateServiceDescription {
             Name: '',
             Weight: '1',
             PrimaryDefaultLoad: null,
-            SecondaryDefaultLoad: null
+            SecondaryDefaultLoad: null,
+            AuxiliaryDefaultLoad: null,
         });
     }
 
@@ -419,6 +431,7 @@ export class CreateServiceDescription {
             StandByReplicaKeepDurationSeconds: null,
             TargetReplicaSetSize: 1,
             MinReplicaSetSize: 1,
+            AuxiliaryReplicaCount: 0,
             HasPersistedState: this.serviceType.raw.ServiceTypeDescription.HasPersistedState,
             InstanceCount: 1,
             PlacementConstraints: '',
